@@ -1,5 +1,5 @@
 /MNIST_data/
-
 *.p
-
 *.gz
+/CarND-Behavioral-Cloning/IMG/
+/CarND-Behavioral-Cloning/udacity-simulator-beta.app/
