@@ -3,3 +3,4 @@
 *.gz
 /CarND-Behavioral-Cloning/IMG/
 /CarND-Behavioral-Cloning/udacity-simulator-beta.app/
+/CarND-Behavioral-Cloning/__pycache__/
