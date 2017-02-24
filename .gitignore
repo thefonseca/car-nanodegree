@@ -2,5 +2,10 @@
 *.p
 *.gz
 /CarND-Behavioral-Cloning/IMG/
-/CarND-Behavioral-Cloning/udacity-simulator-beta.app/
+/CarND-Behavioral-Cloning/udacity-simulator-beta.app/*
 /CarND-Behavioral-Cloning/__pycache__/
+/CarND-Behavioral-Cloning/data/*
+/CarND-Behavioral-Cloning/udacity-simulator.app/*
+/CarND-Behavioral-Cloning/udacity-mac_sim.app/*
+/CarND-Behavioral-Cloning/save/*
+/CarND-Behavioral-Cloning/track1/*
