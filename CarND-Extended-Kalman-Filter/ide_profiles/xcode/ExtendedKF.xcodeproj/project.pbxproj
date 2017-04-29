@@ -1,0 +1,684 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		8A4421382BF24EAB9D8212CE /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 956EB14B08D14549B564989C /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				C499DA869F394DA5906D6D41 /* CMake Rules */,
+			);
+			dependencies = (
+				3970054F76BE4DC5B6D1EAB5 /* PBXTargetDependency */,
+				BED852086F5B4340A0B3AD80 /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		8F7B819D653C479F816B75A5 /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 8F0051F1075F47DEB768A02B /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				BFA8D60771B14F20AFC08EF4 /* CMake Rules */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0A137C0AC8EB40F7B67E5052 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/kalman_filter.cpp */ = {isa = PBXBuildFile; fileRef = F5ADE97ADDA841DCBB5088FD /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/kalman_filter.cpp */; settings = {COMPILER_FLAGS = ""; }; };
+		0FD7AFD3FA5742B39DA8BD4E /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/tools.cpp */ = {isa = PBXBuildFile; fileRef = 52BDAD9243304C3EB6AA63E5 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/tools.cpp */; settings = {COMPILER_FLAGS = ""; }; };
+		5A241B7F808E4457A8DFDF31 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 069CE7CC813544EE81B46429 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/CMakeLists.txt */; settings = {COMPILER_FLAGS = ""; }; };
+		8F478E15C61F496195077986 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/main.cpp */ = {isa = PBXBuildFile; fileRef = B7930D49649945DE941B26C5 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/main.cpp */; settings = {COMPILER_FLAGS = ""; }; };
+		D678CF16122E4CB481CF7FC4 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/FusionEKF.cpp */ = {isa = PBXBuildFile; fileRef = F51CECEF67D24B3B96E258F0 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/FusionEKF.cpp */; settings = {COMPILER_FLAGS = ""; }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		12106674B3F64A75AF359866 /* RelWithDebInfo */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = RelWithDebInfo;
+		};
+		2A8471B9753E49F0932615BF /* MinSizeRel */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = MinSizeRel;
+		};
+		305C0C35AD614B7E9A8F8D8F = {
+			isa = PBXBuildStyle;
+		};
+		611441FDA9EA482FB6AFAD01 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		893A5A68E5464C2989A2E6E6 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		004ADB0C0B5B49B1A9EFB5E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E0CED807A0B04744B6AC3CC0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F7B819D653C479F816B75A5;
+			remoteInfo = ZERO_CHECK;
+		};
+		490D166229B046EE80E2BD43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E0CED807A0B04744B6AC3CC0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F7B819D653C479F816B75A5;
+			remoteInfo = ZERO_CHECK;
+		};
+		557355DCBB4246AA9EF5C326 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E0CED807A0B04744B6AC3CC0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 971788B8D28F4F43AD9C15F6;
+			remoteInfo = ExtendedKF;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		069CE7CC813544EE81B46429 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		52BDAD9243304C3EB6AA63E5 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/tools.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = tools.cpp; path = src/tools.cpp; sourceTree = SOURCE_ROOT; };
+		794B41FA54B44F218FCA7DD8 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		7F1FC9E3314149568F2631CC /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		9437FF39A93E472596E75BA6 /* ExtendedKF */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = ExtendedKF; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7930D49649945DE941B26C5 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
+		F51CECEF67D24B3B96E258F0 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/FusionEKF.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = FusionEKF.cpp; path = src/FusionEKF.cpp; sourceTree = SOURCE_ROOT; };
+		F5ADE97ADDA841DCBB5088FD /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/kalman_filter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = kalman_filter.cpp; path = src/kalman_filter.cpp; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		02B02C30493E427D89E7D85F = {
+			isa = PBXGroup;
+			children = (
+				8CC5BD389A0B4565BA6E01F9 /* Sources */,
+				0F66E9015A2C40E486C1AD1F /* Resources */,
+				AB1A490B65A34860A0BA7929 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0F66E9015A2C40E486C1AD1F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		7FFB264CA27143059AADEFC9 /* ZERO_CHECK */ = {
+			isa = PBXGroup;
+			children = (
+				FA5A0AC9CEB247689C5104A7 /* CMake Rules */,
+				7F1FC9E3314149568F2631CC /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/CMakeLists.txt */,
+			);
+			name = ZERO_CHECK;
+			sourceTree = "<group>";
+		};
+		8CC5BD389A0B4565BA6E01F9 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				DA785032C819423D84BEFDF0 /* ExtendedKF */,
+				F314280A3A3C4060B4355B2C /* ALL_BUILD */,
+				7FFB264CA27143059AADEFC9 /* ZERO_CHECK */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		AB1A490B65A34860A0BA7929 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9437FF39A93E472596E75BA6 /* ExtendedKF */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CDB4957806684EDE9C5E1B5B /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				F51CECEF67D24B3B96E258F0 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/FusionEKF.cpp */,
+				F5ADE97ADDA841DCBB5088FD /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/kalman_filter.cpp */,
+				B7930D49649945DE941B26C5 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/main.cpp */,
+				52BDAD9243304C3EB6AA63E5 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/tools.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		DA785032C819423D84BEFDF0 /* ExtendedKF */ = {
+			isa = PBXGroup;
+			children = (
+				CDB4957806684EDE9C5E1B5B /* Source Files */,
+				069CE7CC813544EE81B46429 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/CMakeLists.txt */,
+			);
+			name = ExtendedKF;
+			sourceTree = "<group>";
+		};
+		F14CF363091544578CFF5C88 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		F314280A3A3C4060B4355B2C /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				F14CF363091544578CFF5C88 /* CMake Rules */,
+				794B41FA54B44F218FCA7DD8 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		FA5A0AC9CEB247689C5104A7 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		971788B8D28F4F43AD9C15F6 /* ExtendedKF */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2A23F95A44B43B0860B1D08 /* Build configuration list for PBXNativeTarget "ExtendedKF" */;
+			buildPhases = (
+				225E60A778444DE38ACDE457 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A2D64D63121C4CB39C545BC8 /* PBXTargetDependency */,
+			);
+			name = ExtendedKF;
+			productName = ExtendedKF;
+			productReference = 9437FF39A93E472596E75BA6 /* ExtendedKF */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E0CED807A0B04744B6AC3CC0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 0820;
+			};
+			buildConfigurationList = 4A68589B0F3D4E68A1D24C08 /* Build configuration list for PBXProject "ExtendedKF" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				611441FDA9EA482FB6AFAD01 /* Debug */,
+				893A5A68E5464C2989A2E6E6 /* Release */,
+				2A8471B9753E49F0932615BF /* MinSizeRel */,
+				12106674B3F64A75AF359866 /* RelWithDebInfo */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = 02B02C30493E427D89E7D85F;
+			projectDirPath = ../../;
+			projectRoot = "";
+			targets = (
+				8A4421382BF24EAB9D8212CE /* ALL_BUILD */,
+				971788B8D28F4F43AD9C15F6 /* ExtendedKF */,
+				8F7B819D653C479F816B75A5 /* ZERO_CHECK */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7F015FCE88A94CCCBD1DF3C1 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		BF863F47B2CA4B259B8D37F9 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		BFA8D60771B14F20AFC08EF4 /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode -f /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode/CMakeScripts/ZERO_CHECK_cmakeRulesBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+		C499DA869F394DA5906D6D41 /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode -f /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode/CMakeScripts/ALL_BUILD_cmakeRulesBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		225E60A778444DE38ACDE457 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D678CF16122E4CB481CF7FC4 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/FusionEKF.cpp */,
+				0A137C0AC8EB40F7B67E5052 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/kalman_filter.cpp */,
+				8F478E15C61F496195077986 /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/main.cpp */,
+				0FD7AFD3FA5742B39DA8BD4E /* /Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/src/tools.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3970054F76BE4DC5B6D1EAB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F7B819D653C479F816B75A5 /* ZERO_CHECK */;
+			targetProxy = 004ADB0C0B5B49B1A9EFB5E6 /* PBXContainerItemProxy */;
+		};
+		A2D64D63121C4CB39C545BC8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F7B819D653C479F816B75A5 /* ZERO_CHECK */;
+			targetProxy = 490D166229B046EE80E2BD43 /* PBXContainerItemProxy */;
+		};
+		BED852086F5B4340A0B3AD80 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 971788B8D28F4F43AD9C15F6 /* ExtendedKF */;
+			targetProxy = 557355DCBB4246AA9EF5C326 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		039DE535C60D49A793473B4C /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		06D76D481B924B6CA46BDECB /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		089E9A7BBFE6411EB4BBEFEB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk;
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode/build";
+			};
+			name = Debug;
+		};
+		0B7B6FA0177942C4AAD6C18B /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		21D21B230B824F0EB77C856D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk;
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode/build";
+			};
+			name = Release;
+		};
+		2AB3C8F77BE34773BE28DDDD /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG   -std=c++0x";
+				OTHER_LDFLAGS = " -Wl,-search_paths_first -Wl,-headerpad_max_install_names  ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ExtendedKF;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		46B1819A6FA94B4DAACBFE76 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		680CDBC155B448F6B266B3E4 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk;
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode/build";
+			};
+			name = RelWithDebInfo;
+		};
+		6D4EFEC2DE1647068047B120 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG   -std=c++0x";
+				OTHER_LDFLAGS = " -Wl,-search_paths_first -Wl,-headerpad_max_install_names  ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ExtendedKF;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		A1369A9F17D44870AC6E2032 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CPLUSPLUSFLAGS = "     -std=c++0x";
+				OTHER_LDFLAGS = " -Wl,-search_paths_first -Wl,-headerpad_max_install_names  ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ExtendedKF;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		A21C3C5B02214FF5A57F67CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		AA4E9468A5494A639D6B49A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		AA79FF800B344C39B9512E8B /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		AE4AFEDA9D454F0592C8BF6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		B541FEF3328E46FDA020D7A8 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk;
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode/build";
+			};
+			name = MinSizeRel;
+		};
+		C8581572E95147EBBB569A0E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG   -std=c++0x";
+				OTHER_LDFLAGS = " -Wl,-search_paths_first -Wl,-headerpad_max_install_names  ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ExtendedKF;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/marcio/Dropbox/Docs/projects/car-nanodegree/CarND-Extended-Kalman-Filter/ide_profiles/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4A68589B0F3D4E68A1D24C08 /* Build configuration list for PBXProject "ExtendedKF" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				089E9A7BBFE6411EB4BBEFEB /* Debug */,
+				21D21B230B824F0EB77C856D /* Release */,
+				B541FEF3328E46FDA020D7A8 /* MinSizeRel */,
+				680CDBC155B448F6B266B3E4 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8F0051F1075F47DEB768A02B /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE4AFEDA9D454F0592C8BF6E /* Debug */,
+				A21C3C5B02214FF5A57F67CD /* Release */,
+				AA79FF800B344C39B9512E8B /* MinSizeRel */,
+				039DE535C60D49A793473B4C /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		956EB14B08D14549B564989C /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46B1819A6FA94B4DAACBFE76 /* Debug */,
+				AA4E9468A5494A639D6B49A6 /* Release */,
+				0B7B6FA0177942C4AAD6C18B /* MinSizeRel */,
+				06D76D481B924B6CA46BDECB /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F2A23F95A44B43B0860B1D08 /* Build configuration list for PBXNativeTarget "ExtendedKF" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1369A9F17D44870AC6E2032 /* Debug */,
+				C8581572E95147EBBB569A0E /* Release */,
+				2AB3C8F77BE34773BE28DDDD /* MinSizeRel */,
+				6D4EFEC2DE1647068047B120 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E0CED807A0B04744B6AC3CC0 /* Project object */;
+}
