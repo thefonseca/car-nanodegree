@@ -13,7 +13,6 @@
 #include <math.h>
 #include <vector>
 #include "map.h"
-#include "Eigen/Dense"
 
 /*
  * Struct representing one position/control measurement.
@@ -80,15 +79,6 @@ inline double * getError(double gt_x, double gt_y, double gt_theta, double pf_x,
     double quadform = (L.solve(x - meanVec)).squaredNorm();
     return std::exp(-x.rows()*logSqrt2Pi - 0.5*quadform) / L.determinant();
 }*/
-
-inline double multivar_gaussian(double x, double y, double mean_x, double mean_y, double std_x, double std_y) {
-    
-    double x1 = x - mean_x;
-    x1 = (x1 * x1) / (2 * std_x * std_x);
-    double y1 = y - mean_y;
-    y1 = (y1 * y1) / (2 * std_y * std_y);
-    return std::exp(-(x1 + y1)) / (2 * M_PI * std_x * std_y);
-}
 
 /* Reads map data from a file.
  * @param filename Name of file containing map data.
