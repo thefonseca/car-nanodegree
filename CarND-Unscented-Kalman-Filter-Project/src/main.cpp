@@ -26,6 +26,20 @@ std::string hasData(std::string s) {
   return "";
 }
 
+std::pair<double,double> getMeanVariance(const std::vector<double>& vec) {
+    double mean = 0, M2 = 0;
+    
+    size_t n = vec.size();
+    for(size_t i=0; i<n; ++i) {
+        double delta = vec[i] - mean;
+        mean += delta/n;
+        M2 += delta*(vec[i] - mean);
+    }
+    
+    double variance = M2/(n - 1);
+    return std::make_pair(mean, sqrt(variance));
+}
+
 int main()
 {
   uWS::Hub h;
@@ -37,8 +51,11 @@ int main()
   Tools tools;
   vector<VectorXd> estimations;
   vector<VectorXd> ground_truth;
+  vector<double> accelerations;
+  long long last_timestamp = 0;
+  float last_v;
 
-  h.onMessage([&ukf,&tools,&estimations,&ground_truth](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
+  h.onMessage([&ukf,&tools,&estimations,&ground_truth,&accelerations,&last_timestamp,&last_v](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
@@ -103,6 +120,21 @@ int main()
     	  gt_values(1) = y_gt; 
     	  gt_values(2) = vx_gt;
     	  gt_values(3) = vy_gt;
+            
+          /*float v_gt = sqrt(vx_gt * vx_gt + vy_gt * vy_gt);
+          std::cout<< "Velocity= " << v_gt << "; " << last_v << "\n";
+            
+          if (last_timestamp > 0) {
+            float dt = (timestamp - last_timestamp) / 1000000.0;
+            float a = (v_gt - last_v) / dt;
+            accelerations.push_back(a);
+              std::pair <double, double> p = getMeanVariance(accelerations);
+              std::cout<< "Acceleration= " << p.first << " (+/- " << p.second << ")\n";
+          }
+            
+          last_timestamp = timestamp;
+          last_v = v_gt;*/
+            
     	  ground_truth.push_back(gt_values);
             
           //Call ProcessMeasurment(meas_package) for Kalman filter

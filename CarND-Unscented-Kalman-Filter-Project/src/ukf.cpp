@@ -110,10 +110,10 @@ void UKF::ProcessMeasurement(MeasurementPackage measurement_pack) {
         
         // first measurement
         //cout << "EKF: " << endl;
-        x_ << 1, 1, 1, 1, 1;
+        x_ << 1, 1, 5, 0.1, 0.1;
         
-        P_ << 1, 0, 0, 0, 0,
-              0, 1, 0, 0, 0,
+        P_ << .15, 0, 0, 0, 0,
+              0, .15, 0, 0, 0,
               0, 0, 1, 0, 0,
               0, 0, 0, 1, 0,
               0, 0, 0, 0, 1;
