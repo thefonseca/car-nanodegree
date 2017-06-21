@@ -3,6 +3,37 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## About the project
+
+In this project you'll revisit the lake race track from the Behavioral Cloning Project. This time, however, you'll implement a PID controller in C++ to maneuver the vehicle around the track!
+
+The simulator will provide you the cross track error (CTE) and the velocity (mph) in order to compute the appropriate steering angle.
+
+## Rubric Points
+
+- *Student describes the effect of the P, I, D component of the PID algorithm in their implementation. Is it what you expected?*
+
+The P (proportional) component is the most important factor that influences the car's behavior. It corrects the steering angle to compensate the car's distance from the lane center (cross track error - CTE). The higher the magnitude of the CTE, the higher will be the steering value towards the lane center.
+
+The D (differential) component makes the car to approach the lane center smoothly and prevents the car from "wiggling" aroud the lane center. When using only the P and D components the car drives properly on straight lines and gentle curves, but fails on sharp turns.
+
+The I (integral) component accounts for bias in the driving system, such as a steering drift. I found this component very important in sharp turns, where the drifting effect is more noticeable.
+
+Here are some example videos comparing the effects of each component.
+
+[PID controller]()
+
+[PD controller]()
+
+[P controller]()
+
+- *Student discusses how they chose the final hyperparameters (P, I, D coefficients)*
+
+
+
+---
+
+
 ## Dependencies
 
 * cmake >= 3.5
