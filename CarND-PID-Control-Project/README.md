@@ -33,16 +33,16 @@ The first step is to choose initial parameters manually. This is done by trial a
 
 Once we have the initial coefficient values, we let the car drive and adjust the coefficients using the "Twiddle" algorithm (a.k.a. [coordinate descent](https://en.wikipedia.org/wiki/Coordinate_descent)). The Twiddle algorithm is called after a "settling" number of steps (= 100 steps) and every "twiddle period" steps (= 500 steps). The coefficients are updated until the sum of the increment vector ```dp``` is smaller than a tolerance value (= 0.01).
 
-The throttle is also controlled by a PID controller with the same tuning strategies. There is a target speed defined (= 50mph) and the error also takes into account the CTE:
+The throttle is also controlled by a PID controller with the same tuning strategies. There is a target speed defined and the error also takes into account the CTE:
 
 ```
-double target_speed = 50.;
-pid_throttle.UpdateError(speed - target_speed + fabs(cte));
+double target_speed = 100.;
+pid_throttle.UpdateError(speed - target_speed + speed * fabs(cte));
 ```
 
-The throttle is limited to be between 0 and 0.5.
+Note that CTE influence is proportional to speed (our car is more careful at high speeds).
 
-After around 100,000 steps the **steering P, I, D coefficients** converged to values **0.0910573, 0.0001, 0.958502** respectively. And the **throttle P, I, D coefficients** converged to values **0.0737034, 9.29141e-05, 0.740917** respectively. These coefficients allow the car to drive safely at speeds around 50mph. We more careful parameter tuning higher speeds can be achieved.
+After around 100,000 steps the **steering P, I, D coefficients** converged to values **0.0887991, 9.4545e-05, 0.957148** respectively. And the **throttle P, I, D coefficients** converged to values **0.0636811, 7.44242e-05, 0.705109** respectively. These coefficients allow the car to drive safely with top speeds around 75mph. With more careful parameter tuning higher speeds can be achieved.
 
 ---
 
