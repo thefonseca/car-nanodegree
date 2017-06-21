@@ -13,6 +13,7 @@ class PID {
     int steps_stabilization;
     int twiddle_period;
     int step;
+    int total_steps;
     int param_index;
     
     void Twiddle();

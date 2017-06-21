@@ -91,6 +91,7 @@ void PID::Init(double Kp, double Ki, double Kd) {
     steps_stabilization = 100;
     twiddle_period = 500;
     step = 0;
+    total_steps = 0;
     param_index = 0;
 }
 
@@ -100,23 +101,27 @@ void PID::UpdateError(double cte) {
         i_error += cte;
     }
     
-    d_error = cte - p_error;
-    p_error = cte;
-    
     if (step > steps_stabilization) {
         total_error += (cte * cte);
         
-        if (step % twiddle_period == 0) {
+        if (fabs(cte) > fabs(p_error) || step % twiddle_period == 0) {
             std::cout<< "Twiddle: " << step << "\n";
             Twiddle();
+            step = 0;
         }
     }
     
-    //std::cout<< "Step: " << step << "\n";
-    //std::cout<< p_error << " : " << i_error << " : " << d_error << "\n";
-    //std::cout<< Kp << " : " << Ki << " : " << Kd << "\n";
+    d_error = cte - p_error;
+    p_error = cte;
+    
+    std::cout<< "Step: " << total_steps << "\n";
+    std::cout<< "PID errors: " << p_error << " : " << i_error << " : " << d_error << "\n";
+    std::cout<< "PID params: " << Kp << " : " << Ki << " : " << Kd << "\n";
+    std::cout<< "Best error: " << best_error << "\n";
+    std::cout<< "Sum dp: " << dp[0] + dp[1] + dp[2] << "\n";
     
     step++;
+    total_steps++;
 }
 
 double PID::TotalError() {

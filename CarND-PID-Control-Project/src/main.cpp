@@ -71,7 +71,7 @@ int main()
                 steer_value = 1.;
             }
             
-            pid_speed.UpdateError(fabs(cte));
+            pid_speed.UpdateError(speed - 50. + fabs(cte));
             throttle = 0.5 + pid_speed.TotalError();
             
             if (throttle < 0) {
