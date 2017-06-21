@@ -11,13 +11,13 @@ The simulator will provide you the cross track error (CTE) and the velocity (mph
 
 ## Rubric Points
 
-- *Student describes the effect of the P, I, D component of the PID algorithm in their implementation. Is it what you expected?*
+### *Student describes the effect of the P, I, D component of the PID algorithm in their implementation. Is it what you expected?*
 
-The P (proportional) component is the most important factor that influences the car's behavior. It corrects the steering angle to compensate the car's distance from the lane center (cross track error - CTE). The higher the magnitude of the CTE, the higher will be the steering value towards the lane center.
+* The **P (proportional)** component is the most important factor that influences the car's behavior. It corrects the steering angle to compensate the car's distance from the lane center (cross track error - CTE). The higher the magnitude of the CTE, the higher will be the steering value towards the lane center.
 
-The D (differential) component makes the car to approach the lane center smoothly and prevents the car from "wiggling" aroud the lane center. When using only the P and D components the car drives properly on straight lines and gentle curves, but fails on sharp turns.
+* The **D (differential)** component makes the car to approach the lane center smoothly and prevents the car from "wiggling" around the lane center. When using only the P and D components the car drives properly on straight lines and gentle curves, but fails on sharp turns.
 
-The I (integral) component accounts for bias in the driving system, such as a steering drift. I found this component very important in sharp turns, where the drifting effect is more noticeable.
+* The **I (integral)** component accounts for bias in the driving system, such as a steering drift. I found this component very important in sharp turns, where the drifting effect is more noticeable.
 
 Here are some example videos comparing the effects of each component.
 
@@ -27,9 +27,22 @@ Here are some example videos comparing the effects of each component.
 
 [P controller]()
 
-- *Student discusses how they chose the final hyperparameters (P, I, D coefficients)*
+### *Student discusses how they chose the final hyperparameters (P, I, D coefficients)*
 
+The first step is to choose initial parameters manually. This is done by trial and error, but there are some [interesting heuristics](https://en.wikipedia.org/wiki/PID_controller#Manual_tuning) to guide this tuning process. The I coefficient is particularly challenging to tune, so it was set to zero (PD controller).
 
+Once we have the initial coefficient values, we let the car drive and adjust the coefficients using the "Twiddle" algorithm (a.k.a. [coordinate descent](https://en.wikipedia.org/wiki/Coordinate_descent)). The Twiddle algorithm is called after a "settling" number of steps (= 100 steps) and every "twiddle period" steps (= 500 steps). The coefficients are updated until the sum of the increment vector ```dp``` is smaller than a tolerance value (= 0.01).
+
+The throttle is also controlled by a PID controller with the same tuning strategies. There is a target speed defined (= 50mph) and the error also takes into account the CTE:
+
+```
+double target_speed = 50.;
+pid_throttle.UpdateError(speed - target_speed + fabs(cte));
+```
+
+The throttle is limited to be between 0 and 0.5.
+
+After around 100,000 steps the **steering P, I, D coefficients** converged to values **0.0910573, 0.0001, 0.958502** respectively. And the **throttle P, I, D coefficients** converged to values **0.0737034, 9.29141e-05, 0.740917** respectively. These coefficients allow the car to drive safely at speeds around 50mph. We more careful parameter tuning higher speeds can be achieved.
 
 ---
 
