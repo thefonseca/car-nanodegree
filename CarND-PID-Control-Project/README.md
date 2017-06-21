@@ -19,13 +19,10 @@ The simulator will provide you the cross track error (CTE) and the velocity (mph
 
 * The **I (integral)** component accounts for bias in the driving system, such as a steering drift. I found this component very important in sharp turns, where the drifting effect is more noticeable.
 
-Here are some example videos comparing the effects of each component.
+Here are some example videos that show the difference between a PID and a P controller:
 
-[PID controller]()
-
-[PD controller]()
-
-[P controller]()
+* [PID controller](https://youtu.be/3a5OGd0VbnA)
+* [P controller](https://youtu.be/R5mhwg0tHHw)
 
 ### *Student discusses how they chose the final hyperparameters (P, I, D coefficients)*
 
