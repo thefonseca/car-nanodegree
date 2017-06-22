@@ -81,7 +81,7 @@ void PID::Init(double Kp, double Ki, double Kd) {
     p[2] = Kd;
     
     for (int i = 0; i < 3; i++) {
-        dp[i] = .1 * p[i];
+        dp[i] = .01 * p[i];
     }
     
     incremented = false;
@@ -97,10 +97,6 @@ void PID::Init(double Kp, double Ki, double Kd) {
 
 void PID::UpdateError(double cte) {
     
-    if (fabs(cte) < fabs(p_error)) { // prevent i_error from exploding
-        i_error += cte;
-    }
-    
     if (step > steps_stabilization) {
         total_error += (cte * cte);
         
@@ -111,6 +107,7 @@ void PID::UpdateError(double cte) {
         }
     }
     
+    i_error += cte;
     d_error = cte - p_error;
     p_error = cte;
     
