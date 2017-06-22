@@ -39,7 +39,7 @@ pid_throttle.UpdateError(speed - target_speed + speed * fabs(cte));
 
 Note that CTE influence is proportional to speed (our car is more careful at high speeds).
 
-After around 100,000 steps the **steering P, I, D coefficients** converged to values **0.0887991, 9.4545e-05, 0.957148** respectively. And the **throttle P, I, D coefficients** converged to values **0.0636811, 7.44242e-05, 0.705109** respectively. These coefficients allow the car to drive safely with top speeds around 75mph. With more careful parameter tuning higher speeds can be achieved.
+After around 100,000 steps the **steering P, I, D coefficients** converged to values **0.0887991, 9.4545e-05, 0.957148** respectively. And the **throttle P, I, D coefficients** converged to values **0.0636811, 7.44242e-05, 0.705109** respectively. These coefficients allow the car to [drive safely with top speeds around 75mph](https://youtu.be/3a5OGd0VbnA). With more careful parameter tuning higher speeds can be achieved.
 
 ---
 
