@@ -6,8 +6,7 @@
 using CppAD::AD;
 
 // TODO: Set the timestep length and duration
-size_t N = 10;
-double dt = 0.1;
+size_t N = 20;
 
 // This value assumes the model presented in the classroom is used.
 //
@@ -24,7 +23,7 @@ const double Lf = 2.67;
 
 // NOTE: feel free to play around with this
 // or do something completely different
-double ref_v = 100;
+double ref_v = 110;
 
 // The solver takes all the state variables and actuator
 // variables in a singular vector. Thus, we should to establish
@@ -67,8 +66,8 @@ public:
         fg[0] = 0;
         
         // Weights for each cost
-        const int cte_cost_weight = 2000;
-        const int epsi_cost_weight = 2000;
+        const int cte_cost_weight = 3000;
+        const int epsi_cost_weight = 3000;
         const int v_cost_weight = 1;
         const int delta_cost_weight = 1;
         const int a_cost_weight = 1;
@@ -128,6 +127,12 @@ public:
             AD<double> epsi0 = vars[epsi_start + t - 1];
             AD<double> a0 = vars[a_start + t - 1];
             AD<double> delta0 = vars[delta_start + t - 1];
+            
+            AD<double> dt = 0.1;
+            
+            if (v0 > 10.) {
+                dt = 5./v0;
+            }
             
             // Here's `x` to get you started.
             // The idea here is to constraint this value to be 0.
