@@ -5,14 +5,14 @@ Self-Driving Car Engineer Nanodegree Program
 In this project you'll implement Model Predictive Control to drive the car around the track. This time however you're not given the cross track error, you'll have to calculate that yourself! Additionally, there's a 100 millisecond latency between actuations commands on top of the connection latency.
 
 ## The Model
-### *Student describes their model in detail. This includes the state, actuators and update equations.*
 
 We use the Kinematic model that defines the state as the `(x,y)` position, the velocity `v` and the orientation `ψ`. The actuators are the acceleration `a` and the steering control ```𝛿```. The state transition after a time interval `dt` is defined by the following equations:
+
 ![kinematic model](./kinematic-model.png)
 
 To complete our state vector, we add the **cross track error (cte)** (distance between the lane center and the vehicle's position) and **orientation error (eψ)**, so that our final state vector is `[x,y,ψ,v,cte,eψ]`.
 
-The kinematic model equations are used as constraints for our optimization problem, solved using the [Ipopt](https://projects.coin-or.org/Ipopt/) library. The code for these constraints can be found in the [MPC.cpp]() file:
+The kinematic model equations are used as constraints for our optimization problem, solved using the [Ipopt](https://projects.coin-or.org/Ipopt/) library. The code for these constraints can be found in the [MPC.cpp](./src/MPC.cpp) file:
 
 ```
 fg[1 + x_start + t] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
@@ -30,6 +30,95 @@ AD<double> psi_des0 = CppAD::atan(polyeval_cppad(coeffs_d, x0));
             
 fg[1 + cte_start + t] = cte1 - ((polyeval_cppad(coeffs, x0) - y0) + v0 * CppAD::sin(epsi0) * dt);
 fg[1 + epsi_start + t] = epsi1 - ((psi0 - psi_des0) + (v0/Lf) * delta0 * dt);
+```
+
+### Tuning the model
+
+To get a smooth and safe driving we have to define different weights for the error, velocity, steering, acceleration and steering/acceleration change costs. The following code implements these weights for a target velocity of **100mph**:
+
+```
+// Weights for each cost
+const int cte_cost_weight = 3000;
+const int epsi_cost_weight = 3000;
+const int v_cost_weight = 1;
+const int delta_cost_weight = 1;
+const int a_cost_weight = 1;
+const int delta_change_cost_weight = 1;
+const int a_change_cost_weight = 1;
+
+// Cost for CTE, psi error and velocity
+for (int t = 0; t < N; t++) {
+    fg[0] += cte_cost_weight * CppAD::pow(vars[cte_start + t], 2);
+    fg[0] += epsi_cost_weight * CppAD::pow(vars[epsi_start + t], 2);
+    fg[0] += v_cost_weight * CppAD::pow(vars[v_start + t] - ref_v, 2);
+}
+
+// Costs for steering (delta) and acceleration (a)
+for (int t = 0; t < N-1; t++) {
+    fg[0] += delta_cost_weight * CppAD::pow(vars[delta_start + t], 2);
+    fg[0] += a_cost_weight * CppAD::pow(vars[a_start + t], 2);
+}
+
+// Costs related to the change in steering and acceleration (makes the ride smoother)
+for (int t = 0; t < N-2; t++) {
+    fg[0] += delta_change_cost_weight * pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
+    fg[0] += a_change_cost_weight * pow(vars[a_start + t + 1] - vars[a_start + t], 2);
+}
+```
+
+## Timestep Length and Elapsed Duration (N & dt)
+
+After trying many combinations of values for `N` and `dt` we can conclude that:
+* A prediction of 1 second ahead is a good choice for safe driving (`N=10` and `dt=0.1`, for example).
+* When you choose a too small (say 0.01) or too large value for `dt` the vehicle becomes unstable.
+* When you choose a too small value for `N` the vehicle slowly goes out of the track.
+
+### The trick: variable `dt`
+
+The problem with using a fixed number of prediction steps and time interval is that the prediction spans a much larger distance when driving at high speeds. To keep the model accurate at higher speeds, we ajust the `dt` value using the velocity, as shown below:
+
+```
+AD<double> dt = 0.1;
+            
+if (v0 > 10.) {
+   dt = 5./v0;
+}
+```
+
+With this simple tuning step, the car can drive safely at speeds as high as 97mph.
+
+## Polynomial Fitting and MPC Preprocessing
+
+Since the waypoints received from the simulator use a global coordinate system, we need to convert these points to the car coordinate system. This is implemented in `main.cpp` as follows:
+
+```
+for (int i=0; i< ptsx.size(); i++) {
+   double x_ = ptsx[i] - px;
+   double y_ = ptsy[i] - py;
+   ptsx_car[i] = x_ * cos(-psi) - y_ * sin(-psi);
+   ptsy_car[i] = x_ * sin(-psi) + y_ * cos(-psi);
+}
+```
+
+Transforming these waypoints make it easier to both display them and to calculate the CTE and Epsi values for the model predictive controller.
+
+## Model Predictive Control with Latency
+
+The Model Predictive Control makes easy to account for the latency in controls. All we have to do is make a initial prediction using the model equations and use these predicted values as the new state for the solver. This is how it is implemented in `main.cpp`:
+
+```
+// 100 milisecond latency
+double latency = 0.1;
+
+x = x + v * cos(psi) * latency;
+y = y + v * sin(psi) * latency;
+psi = psi + (v/Lf) * -delta * latency;
+v = v + a * latency;
+cte = cte + v * sin(epsi) * latency;
+epsi = epsi + (v/Lf) * -delta * latency;
+
+Eigen::VectorXd state(6);
+state << x, y, psi, v, cte, epsi;
 ```
 
 ---
