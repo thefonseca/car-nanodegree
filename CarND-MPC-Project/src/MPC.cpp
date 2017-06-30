@@ -23,7 +23,7 @@ const double Lf = 2.67;
 
 // NOTE: feel free to play around with this
 // or do something completely different
-double ref_v = 110;
+double ref_v = 100;
 
 // The solver takes all the state variables and actuator
 // variables in a singular vector. Thus, we should to establish
@@ -154,7 +154,7 @@ public:
             
             AD<double> psi_des0 = CppAD::atan(polyeval_cppad(coeffs_d, x0));
             
-            fg[1 + cte_start + t] = cte1 - ((polyeval_cppad(coeffs, x0) - y0) + v0 * CppAD::sin(psi0 - psi_des0) * dt);
+            fg[1 + cte_start + t] = cte1 - ((polyeval_cppad(coeffs, x0) - y0) + v0 * CppAD::sin(epsi0) * dt);
             fg[1 + epsi_start + t] = epsi1 - ((psi0 - psi_des0) + (v0/Lf) * delta0 * dt);
         }
     }
