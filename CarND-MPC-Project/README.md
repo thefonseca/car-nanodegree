@@ -116,8 +116,10 @@ psi = psi + (v/Lf) * -delta * latency;
 v = v + a * latency;
 cte = cte + v * sin(epsi) * latency;
 epsi = epsi + (v/Lf) * -delta * latency;
-```
 
+Eigen::VectorXd state(6);
+state << x, y, psi, v, cte, epsi;
+```
 
 ---
 ## Dependencies
