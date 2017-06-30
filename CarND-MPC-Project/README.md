@@ -1,8 +1,38 @@
 # CarND-Controls-MPC
 Self-Driving Car Engineer Nanodegree Program
-
 ---
 
+In this project you'll implement Model Predictive Control to drive the car around the track. This time however you're not given the cross track error, you'll have to calculate that yourself! Additionally, there's a 100 millisecond latency between actuations commands on top of the connection latency.
+
+## The Model
+### *Student describes their model in detail. This includes the state, actuators and update equations.*
+
+We use the Kinematic model that defines the state as the `(x,y)` position, the velocity `v` and the orientation `ψ`. The actuators are the acceleration `a` and the steering control ```𝛿```. The state transition after a time interval `dt` is defined by the following equations:
+![kinematic model](./kinematic-model.png)
+
+To complete our state vector, we add the **cross track error (cte)** (distance between the lane center and the vehicle's position) and **orientation error (eψ)**, so that our final state vector is `[x,y,ψ,v,cte,eψ]`.
+
+The kinematic model equations are used as constraints for our optimization problem, solved using the [Ipopt](https://projects.coin-or.org/Ipopt/) library. The code for these constraints can be found in the [MPC.cpp]() file:
+
+```
+fg[1 + x_start + t] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
+fg[1 + y_start + t] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
+fg[1 + psi_start + t] = psi1 - (psi0 + (v0/Lf) * delta0 * dt);
+fg[1 + v_start + t] = v1 - (v0 + a0 * dt);
+            
+Eigen::VectorXd coeffs_d(coeffs.size()-1);
+// coefficients for polynomial derivative            
+for (int i = 1; i < coeffs.size(); i++) {
+   coeffs_d[i-1] = coeffs[i] * i;
+}
+            
+AD<double> psi_des0 = CppAD::atan(polyeval_cppad(coeffs_d, x0));
+            
+fg[1 + cte_start + t] = cte1 - ((polyeval_cppad(coeffs, x0) - y0) + v0 * CppAD::sin(epsi0) * dt);
+fg[1 + epsi_start + t] = epsi1 - ((psi0 - psi_des0) + (v0/Lf) * delta0 * dt);
+```
+
+---
 ## Dependencies
 
 * cmake >= 3.5
