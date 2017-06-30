@@ -66,6 +66,27 @@ for (int t = 0; t < N-2; t++) {
 }
 ```
 
+## Timestep Length and Elapsed Duration (N & dt)
+
+After trying many combinations of values for `N` and `dt` we can conclude that:
+* A prediction of 1 second ahead is a good choice for safe driving (`N=10` and `dt=0.1`, for example).
+* When you choose a too small (say 0.01) or too large value for `dt` the vehicle becomes unstable.
+* When you choose a too small value for `N` the vehicle slowly goes out of the track.
+
+### The trick: variable `dt`
+
+The problem with using a fixed number of prediction steps and time interval is that the prediction spans a much larger distance when driving at high speeds. To keep the model accurate at higher speeds, we ajust the `dt` value using the velocity, as shown below:
+
+```
+AD<double> dt = 0.1;
+            
+if (v0 > 10.) {
+   dt = 5./v0;
+}
+```
+
+With this simple tuning step, the car can drive safely at speeds as high as 100mph!
+
 ---
 ## Dependencies
 
