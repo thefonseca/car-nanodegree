@@ -85,7 +85,22 @@ if (v0 > 10.) {
 }
 ```
 
-With this simple tuning step, the car can drive safely at speeds as high as 100mph!
+With this simple tuning step, the car can drive safely at speeds as high as 97mph.
+
+## Polynomial Fitting and MPC Preprocessing
+
+Since the waypoints received from the simulator use a global coordinate system, we need to convert these points to the car coordinate system. This is implemented in `main.cpp` as follows:
+
+```
+for (int i=0; i< ptsx.size(); i++) {
+   double x_ = ptsx[i] - px;
+   double y_ = ptsy[i] - py;
+   ptsx_car[i] = x_ * cos(-psi) - y_ * sin(-psi);
+   ptsy_car[i] = x_ * sin(-psi) + y_ * cos(-psi);
+}
+```
+
+Transforming these waypoints make it easier to both display them and to calculate the CTE and Epsi values for the model predictive controller.
 
 ---
 ## Dependencies
