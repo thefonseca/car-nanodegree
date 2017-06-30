@@ -102,6 +102,23 @@ for (int i=0; i< ptsx.size(); i++) {
 
 Transforming these waypoints make it easier to both display them and to calculate the CTE and Epsi values for the model predictive controller.
 
+## Model Predictive Control with Latency
+
+The Model Predictive Control makes easy to account for the latency in controls. All we have to do is make a initial prediction using the model equations and use these predicted values as the new state for the solver. This is how it is implemented in `main.cpp`:
+
+```
+// 100 milisecond latency
+double latency = 0.1;
+
+x = x + v * cos(psi) * latency;
+y = y + v * sin(psi) * latency;
+psi = psi + (v/Lf) * -delta * latency;
+v = v + a * latency;
+cte = cte + v * sin(epsi) * latency;
+epsi = epsi + (v/Lf) * -delta * latency;
+```
+
+
 ---
 ## Dependencies
 
