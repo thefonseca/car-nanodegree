@@ -147,14 +147,14 @@ public:
             fg[1 + v_start + t] = v1 - (v0 + a0 * dt);
             
             Eigen::VectorXd coeffs_d(coeffs.size()-1);
-            
+            // coefficients for polynomial derivative
             for (int i = 1; i < coeffs.size(); i++) {
                 coeffs_d[i-1] = coeffs[i] * i;
             }
             
             AD<double> psi_des0 = CppAD::atan(polyeval_cppad(coeffs_d, x0));
             
-            fg[1 + cte_start + t] = cte1 - ((polyeval_cppad(coeffs, x0) - y0) + v0 * CppAD::sin(epsi0) * dt);
+            fg[1 + cte_start + t] = cte1 - ((polyeval_cppad(coeffs, x0) - y0) + v0 * CppAD::sin(psi0 - psi_des0) * dt);
             fg[1 + epsi_start + t] = epsi1 - ((psi0 - psi_des0) + (v0/Lf) * delta0 * dt);
         }
     }
