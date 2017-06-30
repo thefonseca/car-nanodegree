@@ -5,14 +5,14 @@ Self-Driving Car Engineer Nanodegree Program
 In this project you'll implement Model Predictive Control to drive the car around the track. This time however you're not given the cross track error, you'll have to calculate that yourself! Additionally, there's a 100 millisecond latency between actuations commands on top of the connection latency.
 
 ## The Model
-### *Student describes their model in detail. This includes the state, actuators and update equations.*
 
 We use the Kinematic model that defines the state as the `(x,y)` position, the velocity `v` and the orientation `ψ`. The actuators are the acceleration `a` and the steering control ```𝛿```. The state transition after a time interval `dt` is defined by the following equations:
+
 ![kinematic model](./kinematic-model.png)
 
 To complete our state vector, we add the **cross track error (cte)** (distance between the lane center and the vehicle's position) and **orientation error (eψ)**, so that our final state vector is `[x,y,ψ,v,cte,eψ]`.
 
-The kinematic model equations are used as constraints for our optimization problem, solved using the [Ipopt](https://projects.coin-or.org/Ipopt/) library. The code for these constraints can be found in the [MPC.cpp]() file:
+The kinematic model equations are used as constraints for our optimization problem, solved using the [Ipopt](https://projects.coin-or.org/Ipopt/) library. The code for these constraints can be found in the [MPC.cpp](./src/MPC.cpp) file:
 
 ```
 fg[1 + x_start + t] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
@@ -30,6 +30,40 @@ AD<double> psi_des0 = CppAD::atan(polyeval_cppad(coeffs_d, x0));
             
 fg[1 + cte_start + t] = cte1 - ((polyeval_cppad(coeffs, x0) - y0) + v0 * CppAD::sin(epsi0) * dt);
 fg[1 + epsi_start + t] = epsi1 - ((psi0 - psi_des0) + (v0/Lf) * delta0 * dt);
+```
+
+### Tuning the model
+
+To get a smooth and safe driving we have to define different weights for the error, velocity, steering, acceleration and steering/acceleration change costs. The following code implements these weights for a target velocity of **100mph**:
+
+```
+// Weights for each cost
+const int cte_cost_weight = 3000;
+const int epsi_cost_weight = 3000;
+const int v_cost_weight = 1;
+const int delta_cost_weight = 1;
+const int a_cost_weight = 1;
+const int delta_change_cost_weight = 1;
+const int a_change_cost_weight = 1;
+
+// Cost for CTE, psi error and velocity
+for (int t = 0; t < N; t++) {
+    fg[0] += cte_cost_weight * CppAD::pow(vars[cte_start + t], 2);
+    fg[0] += epsi_cost_weight * CppAD::pow(vars[epsi_start + t], 2);
+    fg[0] += v_cost_weight * CppAD::pow(vars[v_start + t] - ref_v, 2);
+}
+
+// Costs for steering (delta) and acceleration (a)
+for (int t = 0; t < N-1; t++) {
+    fg[0] += delta_cost_weight * CppAD::pow(vars[delta_start + t], 2);
+    fg[0] += a_cost_weight * CppAD::pow(vars[a_start + t], 2);
+}
+
+// Costs related to the change in steering and acceleration (makes the ride smoother)
+for (int t = 0; t < N-2; t++) {
+    fg[0] += delta_change_cost_weight * pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
+    fg[0] += a_change_cost_weight * pow(vars[a_start + t + 1] - vars[a_start + t], 2);
+}
 ```
 
 ---
