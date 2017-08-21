@@ -204,10 +204,12 @@ int main()
 	double MAX_JERK = 50.;
 	double NUM_LANES = 3;
 	double LANE_WIDTH = 4.;
+	double SAFE_DISTANCE = 30.;
 	
 	vector<double> ego_config = {
 		NUM_LANES, LANE_WIDTH, 
-		MAX_SPEED, MAX_ACCEL, MAX_JERK
+		MAX_SPEED, MAX_ACCEL, MAX_JERK,
+		SAFE_DISTANCE
 	};
 	Vehicle ego = Vehicle(ego_config);
     
@@ -256,6 +258,45 @@ int main()
 					// Sensor Fusion Data, a list of all other cars on the same side of the road.
 					auto sensor_fusion = j[1]["sensor_fusion"];
 
+					float UPDATE_INTERVAL = .02;
+
+					map<int, vector<vector<double>>> predictions;
+
+					// generate predictions
+					for(int i = 0; i < sensor_fusion.size(); i++)
+					{
+						int v_id = sensor_fusion[i][0];
+
+						if (predictions.find(v_id) == predictions.end()) {
+							cout<<"Element not found: " << v_id << endl;
+							vector<vector<double>> states;
+							predictions[v_id] = states;
+						}
+
+						double x = sensor_fusion[i][1];
+						double y = sensor_fusion[i][2];
+						double vx = sensor_fusion[i][3];
+						double vy = sensor_fusion[i][4];
+						//double v = sqrt(vx * vx + vy * vy);
+						//double s = sensor_fusion[i][5];
+						x += (vx * UPDATE_INTERVAL);
+						y += (vy * UPDATE_INTERVAL);
+						double theta = atan2(vy, vx);
+						//s += 
+
+						vector<double> pred_frenet = getFrenet(x, y, theta, map_waypoints_x, map_waypoints_y);
+						//cout<< "Pred frenet: " << v_id << " => " << pred_frenet[0] << "; " << pred_frenet[1] << endl;
+
+						predictions[v_id].push_back({
+							sensor_fusion[i][5],
+							sensor_fusion[i][6]
+						});
+						predictions[v_id].push_back(pred_frenet);
+					}
+
+					//cout<< ego.display() << endl;
+					ego.update_state(predictions, 0);
+
 					json msgJson;
 
 					vector<double> ptsx;
@@ -293,9 +334,10 @@ int main()
 					}
 
 					// creating evenly 30m spaced points ahead of the starting reference
-					vector<double> next_wp0 = getXY(car_s + 30, ego.d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-					vector<double> next_wp1 = getXY(car_s + 60, ego.d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-					vector<double> next_wp2 = getXY(car_s + 90, ego.d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+					double ego_d = ego.lane_width * ego.get_lane() + ego.lane_width/2.;
+					vector<double> next_wp0 = getXY(car_s + 30, ego_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+					vector<double> next_wp1 = getXY(car_s + 60, ego_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+					vector<double> next_wp2 = getXY(car_s + 90, ego_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
 					ptsx.push_back(next_wp0[0]);
 					ptsx.push_back(next_wp1[0]);
@@ -334,11 +376,9 @@ int main()
 
 					double x_add_on = 0;
 
-					float UPDATE_INTERVAL = .02;
-					
 					// add remaining points (total 50 points)
 					for (int i=0; i < 50 - previous_path_x.size(); i++) {
-						double N = target_dist / (UPDATE_INTERVAL * ego.target_speed);
+						double N = target_dist / (UPDATE_INTERVAL * ego.v);
 						double x_point = x_add_on + target_x/N;
 						double y_point = s(x_point);
 
@@ -358,42 +398,6 @@ int main()
 						next_y_vals.push_back(y_point);
 					}
 
-					
-					/*map<int, vector<vector<double>>> predictions;
-					
-					// generate predictions
-					for(int i = 0; i < sensor_fusion.size(); i++)
-					{
-						int v_id = sensor_fusion[i][0];
-
-						if (predictions.find(v_id) == predictions.end()) {
-							vector<vector<double>> states;
-							predictions[v_id] = states;
-						}
-
-						double x = sensor_fusion[i][1];
-						double y = sensor_fusion[i][2];
-						double vx = sensor_fusion[i][3];
-						double vy = sensor_fusion[i][4];
-						x += (vx * UPDATE_INTERVAL);
-						y += (vy * UPDATE_INTERVAL);
-						double theta = atan2(vy, vx);
-
-						vector<double> pred_frenet = getFrenet(x, y, theta, map_waypoints_x, map_waypoints_y);
-						//cout<< "Pred frenet: " << v_id << " => " << pred_frenet[0] << "; " << pred_frenet[1] << endl;
-						predictions[v_id].push_back({
-							sensor_fusion[i][5], 
-							sensor_fusion[i][6]
-						});
-						predictions[v_id].push_back(pred_frenet);
-					}
-
-					*/
-
-					//cout<< ego.display() << endl;
-					//ego.update_state(predictions, time_interval);
-
-					
 					// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
 					msgJson["next_x"] = next_x_vals;
 					msgJson["next_y"] = next_y_vals;

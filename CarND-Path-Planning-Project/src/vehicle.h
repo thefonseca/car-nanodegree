@@ -23,7 +23,7 @@ class Vehicle
 
     int L = 1;
 
-    int preferred_buffer = 6; // impacts "keep lane" behavior.
+    double safe_distance; // impacts "keep lane" behavior.
 
     float lane;
 
