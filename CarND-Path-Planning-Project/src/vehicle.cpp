@@ -366,9 +366,7 @@ void Vehicle::realize_constant_speed() {
 }
 
 void Vehicle::realize_keep_lane(map<int, vector<vector<double>>> predictions, float time_interval) {
-    //this->a = _max_accel_for_lane(predictions, get_lane(), this->s);
-
-    cout<<"Realizing keep lane..." << endl;
+    
     map<int, vector<vector<double>>>::iterator it = predictions.begin();
     vector<vector<vector<double>>> in_front;
     vector<vector<vector<double>>> left_front;
@@ -417,6 +415,8 @@ void Vehicle::realize_keep_lane(map<int, vector<vector<double>>> predictions, fl
     cout<< "Right collision: "<< right_collision.size() << endl;
 
     double cost_center = 0;
+    double leading_speed;
+    double leading_s;
 
     if(in_front.size() > 0)
     {
@@ -430,15 +430,20 @@ void Vehicle::realize_keep_lane(map<int, vector<vector<double>>> predictions, fl
     			leading = in_front[i];
             }
             
-            cost_center += fabs(in_front[i][0][2] - v) / pow((in_front[i][0][0] - s), 2);
+            leading_speed = leading[0][2];
+            leading_s = leading[0][0];
+            cost_center += fabs(leading_speed - v) / pow((leading_s - s), 2);
     	}
         
         double safe_s = leading[1][0] - safe_distance;
         cout<< "Leading " << leading[1][0] << "; " << safe_s << "; " << s << endl;
         double recovery_coeff = (safe_s - s <= 10 ? safe_s - s: 10);
+        double delta_speed = fabs(v - leading[1][2]);
 
         if (s > safe_s) {
-            v -= (.05 * max_acceleration);// * (s - safe_s);
+            
+            //v -= (.02 * max_acceleration);// * pow((s - safe_s), 2);
+            v -= (delta_speed/safe_distance * (s - safe_s));
             
             double cost_left = 10000000;
             double cost_right = 10000000;
@@ -474,15 +479,13 @@ void Vehicle::realize_keep_lane(map<int, vector<vector<double>>> predictions, fl
             }
 
 
-        } else if (v <= target_speed - .01 * max_acceleration * recovery_coeff) {
+        } else if (v <= target_speed) {
             v += (.01 * max_acceleration) * recovery_coeff;
         }
 
-        //double next_v = (next_s - s) / time_interval;
-
-    } else if (v <= target_speed - .2 * max_acceleration) {
+    } else if (v <= (target_speed)) {
         cout<< "Free lane!"<<endl;
-        v += (.15 * max_acceleration);
+        v += (.1 * max_acceleration);
     }
 }
 

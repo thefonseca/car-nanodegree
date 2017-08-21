@@ -160,6 +160,29 @@ vector<double> getXY(double s, double d, vector<double> maps_s, vector<double> m
 	return {x, y};
 }
 
+template <typename T, typename Compare>
+std::vector<std::size_t> sort_permutation(
+    const std::vector<T>& vec,
+    Compare& compare)
+{
+    std::vector<std::size_t> p(vec.size());
+    std::iota(p.begin(), p.end(), 0);
+    std::sort(p.begin(), p.end(),
+        [&](std::size_t i, std::size_t j){ return compare(vec[i], vec[j]); });
+    return p;
+}
+
+template <typename T>
+std::vector<T> apply_permutation(
+    const std::vector<T>& vec,
+    const std::vector<std::size_t>& p)
+{
+    std::vector<T> sorted_vec(vec.size());
+    std::transform(p.begin(), p.end(), sorted_vec.begin(),
+        [&](std::size_t i){ return vec[i]; });
+    return sorted_vec;
+}
+
 int main()
 {
 	uWS::Hub h;
@@ -199,7 +222,7 @@ int main()
 		map_waypoints_dy.push_back(d_y);
 	}
 
-	double MAX_SPEED = 22.; // 50 MPH = 22.352 meters per second
+	double MAX_SPEED = 21.; // 50 MPH = 22.352 meters per second
 	double MAX_ACCEL = 10.;
 	double MAX_JERK = 50.;
 	double NUM_LANES = 3;
@@ -308,7 +331,7 @@ int main()
 					double angle = deg2rad(car_yaw);
 
 					int path_size = previous_path_x.size();
-
+					
 					// get past 2 points
 					if (path_size < 2)
 					{
@@ -334,18 +357,18 @@ int main()
 						ptsy.push_back(pos_y);
 					}
 
-					// creating evenly 30m spaced points ahead of the starting reference
+					// creating evenly spaced points ahead of the starting reference
 					double ego_d = ego.lane_width * ego.lane + ego.lane_width/2.;
-					vector<double> next_wp0 = getXY(car_s + 30, ego_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-					vector<double> next_wp1 = getXY(car_s + 60, ego_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-					vector<double> next_wp2 = getXY(car_s + 90, ego_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
-					ptsx.push_back(next_wp0[0]);
-					ptsx.push_back(next_wp1[0]);
-					ptsx.push_back(next_wp2[0]);
-					ptsy.push_back(next_wp0[1]);
-					ptsy.push_back(next_wp1[1]);
-					ptsy.push_back(next_wp2[1]);
+					float delta_s = 30.;
+					float add_s = 20 + delta_s;
+					
+					for (int i=0; i < 4; i++) {
+						vector<double> next_wp = getXY(car_s + add_s, ego_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+						ptsx.push_back(next_wp[0]);
+						ptsy.push_back(next_wp[1]);
+						add_s += delta_s;
+					}
 
 					// changing coordinates to ego's reference
 					for (int i=0; i < ptsx.size(); i++) {
@@ -358,6 +381,12 @@ int main()
 
 					// create spline
 					tk::spline s;
+
+					// spline likes sorted vectors
+					auto f = [](double const& a, double const& b){ return a < b; };
+					auto p = sort_permutation(ptsx, f);
+					ptsx = apply_permutation(ptsx, p);
+					ptsy = apply_permutation(ptsy, p);
 
 					s.set_points(ptsx, ptsy);
 
