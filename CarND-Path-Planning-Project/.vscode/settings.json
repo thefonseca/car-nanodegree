@@ -17,6 +17,9 @@
         "iosfwd": "cpp",
         "iterator": "cpp",
         "__locale": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "forward_list": "cpp",
+        "queue": "cpp"
     }
 }

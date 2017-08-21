@@ -38,6 +38,7 @@ void Vehicle::update_localization(double x, double y,
     this->d = d;
     this->yaw = yaw;
     this->v = v;
+    this->lane = get_lane();
 
     if(coeffs_s.size() == 0) {
         coeffs_s = {s, v, 0, 0, 0, 0};
@@ -364,58 +365,16 @@ void Vehicle::realize_constant_speed() {
 	a = 0;
 }
 
-/*int Vehicle::_max_accel_for_lane(map<int, vector<vector<float>>> predictions, int lane, int s) {
-
-	float delta_v_til_target = target_speed - v;
-    float max_acc = min(max_acceleration, delta_v_til_target);
-
-    map<int, vector<vector<float>>>::iterator it = predictions.begin();
-    vector<vector<vector<float>>> in_front;
-    while(it != predictions.end())
-    {
-       
-    	int v_id = it->first;
-    	
-        vector<vector<float>> v = it->second;
-        
-        if((v[0][0] == lane) && (v[0][1] > s))
-        {
-        	in_front.push_back(v);
-
-        }
-        it++;
-    }
-    
-    if(in_front.size() > 0)
-    {
-    	float min_s = 1000;
-    	vector<vector<float>> leading = {};
-    	for(int i = 0; i < in_front.size(); i++)
-    	{
-    		if((in_front[i][0][1]-s) < min_s)
-    		{
-    			min_s = (in_front[i][0][1]-s);
-    			leading = in_front[i];
-    		}
-    	}
-    	
-    	float next_pos = leading[1][1];
-    	float my_next = s + this->v;
-    	float separation_next = next_pos - my_next;
-    	float available_room = separation_next - preferred_buffer;
-    	max_acc = min(max_acc, available_room);
-    }
-    
-    return max_acc;
-
-}*/
-
 void Vehicle::realize_keep_lane(map<int, vector<vector<double>>> predictions, float time_interval) {
     //this->a = _max_accel_for_lane(predictions, get_lane(), this->s);
 
     cout<<"Realizing keep lane..." << endl;
     map<int, vector<vector<double>>>::iterator it = predictions.begin();
     vector<vector<vector<double>>> in_front;
+    vector<vector<vector<double>>> left_front;
+    vector<vector<vector<double>>> right_front;
+    vector<vector<vector<double>>> left_collision;
+    vector<vector<vector<double>>> right_collision;
 
     double next_s;
     double next_v = target_speed;
@@ -424,15 +383,41 @@ void Vehicle::realize_keep_lane(map<int, vector<vector<double>>> predictions, fl
     {
     	int v_id = it->first;
         vector<vector<double>> vec = it->second;
-        cout<< "Vehicle: " << v_id << " => " <<  vec[0][0] << "; " << vec[0][1] << endl;
-        if((get_lane(vec[0][1]) == get_lane()) && (vec[0][0] > s))
+        //cout<< "Vehicle: " << v_id << " => " <<  vec[0][0] << "; " << vec[0][1] << endl;
+
+        if((get_lane(vec[0][1]) == lane) && (vec[0][0] > s))
         {
-        	in_front.push_back(vec);
+            in_front.push_back(vec);
+            
+        } else if((get_lane(vec[0][1]) == lane+1) && (vec[0][0] > s - safe_distance/2.)) {
+
+            if (vec[0][0] > s + safe_distance/2.) {
+                right_front.push_back(vec);
+
+            } else {
+                right_collision.push_back(vec);
+            }
+        
+        } else if((get_lane(vec[0][1]) == lane-1) && (vec[0][0] > s - safe_distance/2.)) {
+        	if (vec[0][0] > s + safe_distance/2.) {
+                left_front.push_back(vec);
+
+            } else {
+                left_collision.push_back(vec);
+            }
         }
+
         it++;
     }
     
-    cout<< "In front: "<< in_front.size() << endl;
+    cout<< "Left front: "<< left_front.size() << endl;
+    cout<< "Left collision: "<< left_collision.size() << endl;
+    cout<< "Center front: "<< in_front.size() << endl;
+    cout<< "Right front: "<< right_front.size() << endl;
+    cout<< "Right collision: "<< right_collision.size() << endl;
+
+    double cost_center = 0;
+
     if(in_front.size() > 0)
     {
     	double min_s = 1000;
@@ -443,7 +428,9 @@ void Vehicle::realize_keep_lane(map<int, vector<vector<double>>> predictions, fl
     		{
     			min_s = in_front[i][0][0]-s;
     			leading = in_front[i];
-    		}
+            }
+            
+            cost_center += fabs(in_front[i][0][2] - v) / pow((in_front[i][0][0] - s), 2);
     	}
         
         double safe_s = leading[1][0] - safe_distance;
@@ -451,8 +438,42 @@ void Vehicle::realize_keep_lane(map<int, vector<vector<double>>> predictions, fl
         double recovery_coeff = (safe_s - s <= 10 ? safe_s - s: 10);
 
         if (s > safe_s) {
-            v -= (.01 * max_acceleration) * (s - safe_s);
-        
+            v -= (.05 * max_acceleration);// * (s - safe_s);
+            
+            double cost_left = 10000000;
+            double cost_right = 10000000;
+            
+            if (left_collision.size() == 0 && lane > 0) {
+                cost_left = 0;
+                if (left_front.size() > 0) {
+                    for(int i = 0; i < left_front.size(); i++)
+                    {
+                        cost_left += fabs(left_front[i][0][2] - v) / pow((left_front[i][0][0] - s), 2);
+                    }
+                }
+            }
+
+            if (right_collision.size() == 0 && lane < lanes_available-1) {
+                cost_right = 0;
+                if (right_front.size() > 0) {
+                    for(int i = 0; i < right_front.size(); i++)
+                    {
+                        cost_right += fabs(right_front[i][0][2] - v) / pow((right_front[i][0][0] - s), 2);
+                    }
+                }
+            }
+
+            if (cost_right < cost_center || cost_left < cost_center) {
+
+                if (cost_right < cost_left) {
+                    lane++;
+                
+                } else if (cost_left < cost_center) {
+                    lane--;
+                }
+            }
+
+
         } else if (v <= target_speed - .01 * max_acceleration * recovery_coeff) {
             v += (.01 * max_acceleration) * recovery_coeff;
         }
@@ -463,38 +484,6 @@ void Vehicle::realize_keep_lane(map<int, vector<vector<double>>> predictions, fl
         cout<< "Free lane!"<<endl;
         v += (.15 * max_acceleration);
     }
-
-    /*if(next_v > target_speed) {
-        cout<<"Above speed limit! " << next_v << endl;
-        next_v = target_speed;
-    }
-
-    double next_a = (next_v - v) / time_interval;
-
-    if(fabs(next_a) > max_acceleration) {
-        cout<<"Above acc limit! " << next_a << endl;
-        next_v = v + max_acceleration * time_interval * (next_a < 0 ? -1. : 1.);
-        next_a = (next_v - v) / time_interval;
-    }
-
-    double jerk = (next_a - a) / time_interval;
-
-    if(fabs(jerk) > max_jerk) {
-        cout<<"Above jerk limit! " << jerk << endl;
-        next_a = a + max_jerk * time_interval * (jerk < 0 ? -1. : 1.);
-        next_v = v + next_a * time_interval;
-    }
-
-    next_s = s + next_v * time_interval + 0.5 * next_a * pow(time_interval, 2);
-    //next_a = 0;
-
-    cout<< "Trajectory from {s=" << s << ", v=" << v << ", a=" << a << "} to {s=" << next_s << ", v=" << next_v << ", a=" << next_a 
-    << " in " << time_interval << " seconds" << endl;
-    coeffs_s = JMT({s, v, a}, {next_s, next_v, next_a}, time_interval);
-
-    //s = next_s;
-    v = next_v;
-    //a = next_a;*/
 }
 
 void Vehicle::realize_lane_change(map<int, vector<vector<double>>> predictions, string direction) {

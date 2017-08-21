@@ -268,7 +268,7 @@ int main()
 						int v_id = sensor_fusion[i][0];
 
 						if (predictions.find(v_id) == predictions.end()) {
-							cout<<"Element not found: " << v_id << endl;
+							//cout<<"Element not found: " << v_id << endl;
 							vector<vector<double>> states;
 							predictions[v_id] = states;
 						}
@@ -277,7 +277,7 @@ int main()
 						double y = sensor_fusion[i][2];
 						double vx = sensor_fusion[i][3];
 						double vy = sensor_fusion[i][4];
-						//double v = sqrt(vx * vx + vy * vy);
+						double v = sqrt(vx * vx + vy * vy);
 						//double s = sensor_fusion[i][5];
 						x += (vx * UPDATE_INTERVAL);
 						y += (vy * UPDATE_INTERVAL);
@@ -289,9 +289,10 @@ int main()
 
 						predictions[v_id].push_back({
 							sensor_fusion[i][5],
-							sensor_fusion[i][6]
+							sensor_fusion[i][6], v
 						});
-						predictions[v_id].push_back(pred_frenet);
+
+						predictions[v_id].push_back({pred_frenet[0], pred_frenet[1], v});
 					}
 
 					//cout<< ego.display() << endl;
@@ -334,7 +335,7 @@ int main()
 					}
 
 					// creating evenly 30m spaced points ahead of the starting reference
-					double ego_d = ego.lane_width * ego.get_lane() + ego.lane_width/2.;
+					double ego_d = ego.lane_width * ego.lane + ego.lane_width/2.;
 					vector<double> next_wp0 = getXY(car_s + 30, ego_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 					vector<double> next_wp1 = getXY(car_s + 60, ego_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 					vector<double> next_wp2 = getXY(car_s + 90, ego_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
