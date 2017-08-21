@@ -1,0 +1,20 @@
+{
+    "files.associations": {
+        "memory": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp",
+        "__tree": "cpp",
+        "map": "cpp",
+        "locale": "cpp",
+        "string": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "chrono": "cpp",
+        "__split_buffer": "cpp",
+        "list": "cpp",
+        "iosfwd": "cpp",
+        "iterator": "cpp"
+    }
+}
