@@ -207,8 +207,6 @@ for (int i=0; i < 4; i++) {
     ptsy.push_back(next_wp[1]);
     add_s += delta_s;
 }
-
-
 ```
 
 #### The car is able to change lanes.
