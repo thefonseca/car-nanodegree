@@ -23,10 +23,9 @@ class Vehicle
 
     int L = 1;
 
-    double safe_distance; // impacts "keep lane" behavior.
+    double safe_distance;
 
     float lane;
-
     double x;
     double y;
     double s;
@@ -36,9 +35,7 @@ class Vehicle
     double v;
     double yaw;
     double a;
-
-    vector<double> coeffs_s;
-    vector<double> coeffs_d;
+    double last_lane_change_s;
 
     double lanes_available;
     double lane_width;
@@ -49,8 +46,11 @@ class Vehicle
 
     string state;
 
-    vector<float> weights;
-    vector<string> cost_functions;
+    vector<vector<vector<double>>> in_front;
+    vector<vector<vector<double>>> left_front;
+    vector<vector<vector<double>>> right_front;
+    vector<vector<vector<double>>> left_collision;
+    vector<vector<vector<double>>> right_collision;
 
     /**
   * Constructor
@@ -63,6 +63,7 @@ class Vehicle
     virtual ~Vehicle();
 
     void update_state(map<int, vector<vector<double>>> predictions);
+    void process_sensor_data(map<int, vector<vector<double>>> predictions);
 
     void configure(vector<double> config);
 

@@ -199,7 +199,7 @@ int main()
 		map_waypoints_dy.push_back(d_y);
 	}
 
-	double MAX_SPEED = 21.; // 50 MPH = 22.352 meters per second
+	double MAX_SPEED = 21.2; // 50 MPH = 22.352 meters per second
 	double MAX_ACCEL = 10.;
 	double MAX_JERK = 50.;
 	double NUM_LANES = 3;
@@ -251,7 +251,7 @@ int main()
 					ego.update_localization(car_x, car_y, 
 						car_s, car_d, deg2rad(car_yaw), car_speed);
 
-					cout<< "s: " << ego.s << "; lane: "<< ego.get_lane() << endl;
+					cout<< "s: " << ego.s << "; lane: "<< ego.lane << endl;
 
 					// Previous path data given to the Planner
 					auto previous_path_x = j[1]["previous_path_x"];
@@ -362,7 +362,6 @@ int main()
 					tk::spline s;
 
 					/*for (int i=0; i < ptsx.size(); i++) {
-						//vector<double> frenet = getFrenet(x, y, theta, map_waypoints_x, map_waypoints_y);
 						cout<< "pts[" << i << "]: " << ptsx[i] << "; " << ptsy[i] << endl;
 					}*/
 
