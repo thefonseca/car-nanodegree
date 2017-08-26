@@ -68,8 +68,32 @@ class Vehicle
 
     void display();
 
+    //void increment(int dt);
+
+    vector<double> state_at(double t);
+
+    bool collides_with(Vehicle other, float at_time);
+
+    collider will_collide_with(Vehicle other, int timesteps);
+
+    void realize_state(map<int, vector<vector<double>>> predictions, bool simulated);
+
+    void realize_constant_speed();
+
+    //int _max_accel_for_lane(map<int, vector<vector<float>>> predictions, int lane, int s);
+
     void realize_keep_lane(map<int, vector<vector<double>>> predictions);
 
+    void realize_lane_change(map<int, vector<vector<double>>> predictions, string direction, bool simulated);
+
+    void realize_prep_lane_change(map<int, vector<vector<double>>> predictions, string direction);
+
+    vector<vector<double>> generate_predictions(float horizon);
+    
+    //vector<vector<double>> generate_trajectory(float wp_s);
+    
+    vector<string> successor_states();
+    
     float get_cost(string cost_function, 
       vector<vector<double>> trajectory_for_state, 
       map<int, vector<vector<double>>> predictions);

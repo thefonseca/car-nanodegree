@@ -160,29 +160,6 @@ vector<double> getXY(double s, double d, vector<double> maps_s, vector<double> m
 	return {x, y};
 }
 
-template <typename T, typename Compare>
-std::vector<std::size_t> sort_permutation(
-    const std::vector<T>& vec,
-    Compare& compare)
-{
-    std::vector<std::size_t> p(vec.size());
-    std::iota(p.begin(), p.end(), 0);
-    std::sort(p.begin(), p.end(),
-        [&](std::size_t i, std::size_t j){ return compare(vec[i], vec[j]); });
-    return p;
-}
-
-template <typename T>
-std::vector<T> apply_permutation(
-    const std::vector<T>& vec,
-    const std::vector<std::size_t>& p)
-{
-    std::vector<T> sorted_vec(vec.size());
-    std::transform(p.begin(), p.end(), sorted_vec.begin(),
-        [&](std::size_t i){ return vec[i]; });
-    return sorted_vec;
-}
-
 int main()
 {
 	uWS::Hub h;
@@ -236,8 +213,10 @@ int main()
 	};
 	Vehicle ego = Vehicle(ego_config);
     
-	h.onMessage([&ego, &map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
-																											 uWS::OpCode opCode) {
+	h.onMessage([
+		&ego, &map_waypoints_x, &map_waypoints_y, 
+		&map_waypoints_s, &map_waypoints_dx, 
+		&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
 		// "42" at the start of the message means there's a websocket message event.
 		// The 4 signifies a websocket message
 		// The 2 signifies a websocket event
@@ -262,6 +241,7 @@ int main()
 					double car_x = j[1]["x"];
 					double car_y = j[1]["y"];
 					double car_s = j[1]["s"];
+					car_s = fmod(car_s, 6946);
 					double car_d = j[1]["d"];
 					double car_yaw = j[1]["yaw"];
 					double car_speed = j[1]["speed"]; 
@@ -270,6 +250,8 @@ int main()
 
 					ego.update_localization(car_x, car_y, 
 						car_s, car_d, deg2rad(car_yaw), car_speed);
+
+					cout<< "s: " << ego.s << "; lane: "<< ego.get_lane() << endl;
 
 					// Previous path data given to the Planner
 					auto previous_path_x = j[1]["previous_path_x"];
@@ -301,12 +283,10 @@ int main()
 						double vx = sensor_fusion[i][3];
 						double vy = sensor_fusion[i][4];
 						double v = sqrt(vx * vx + vy * vy);
-						//double s = sensor_fusion[i][5];
 						x += (vx * UPDATE_INTERVAL);
 						y += (vy * UPDATE_INTERVAL);
 						double theta = atan2(vy, vx);
-						//s += 
-
+						
 						vector<double> pred_frenet = getFrenet(x, y, theta, map_waypoints_x, map_waypoints_y);
 						//cout<< "Pred frenet: " << v_id << " => " << pred_frenet[0] << "; " << pred_frenet[1] << endl;
 
@@ -318,8 +298,7 @@ int main()
 						predictions[v_id].push_back({pred_frenet[0], pred_frenet[1], v});
 					}
 
-					//cout<< ego.display() << endl;
-					ego.update_state(predictions, 0);
+					ego.realize_keep_lane(predictions);
 
 					json msgJson;
 
@@ -382,11 +361,10 @@ int main()
 					// create spline
 					tk::spline s;
 
-					// spline likes sorted vectors
-					auto f = [](double const& a, double const& b){ return a < b; };
-					auto p = sort_permutation(ptsx, f);
-					ptsx = apply_permutation(ptsx, p);
-					ptsy = apply_permutation(ptsy, p);
+					/*for (int i=0; i < ptsx.size(); i++) {
+						//vector<double> frenet = getFrenet(x, y, theta, map_waypoints_x, map_waypoints_y);
+						cout<< "pts[" << i << "]: " << ptsx[i] << "; " << ptsy[i] << endl;
+					}*/
 
 					s.set_points(ptsx, ptsy);
 
