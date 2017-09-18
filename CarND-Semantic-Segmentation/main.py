@@ -59,31 +59,34 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     # TODO: Implement function
     
     layer3_conv1x1 = tf.layers.conv2d(vgg_layer3_out, num_classes, kernel_size=1, strides=1, padding='same',
-                                   kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
-    #relu3_1x1 = tf.nn.relu(layer3_conv1x1, name="relu1x1_1")
-
+                                   kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3),
+                                   kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
+    
     layer4_conv1x1 = tf.layers.conv2d(vgg_layer4_out, num_classes, kernel_size=1, strides=1, padding='same',
-                                   kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
-    #relu4_1x1 = tf.nn.relu(layer4_conv1x1, name="relu1x1_1")
-
+                                   kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3),
+                                   kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
+    
     layer7_conv1x1 = tf.layers.conv2d(vgg_layer7_out, num_classes, kernel_size=1, strides=1, padding='same',
-                                   kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
-    #relu7_1x1 = tf.nn.relu(layer7_conv1x1, name="relu1x1_1")
-
+                                   kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3),
+                                   kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
+    
     stride = 2
     fcn_transpose_1 = tf.layers.conv2d_transpose(layer7_conv1x1, num_classes, 2 * stride, stride, padding='same',
-                                                 kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+                                                 kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3),
+                                                 kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
 
     fcn_transpose_1 = tf.add(layer4_conv1x1, fcn_transpose_1)
 
     fcn_transpose_2 = tf.layers.conv2d_transpose(fcn_transpose_1, num_classes, 2 * stride, stride, padding='same',
-                                                 kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+                                                 kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3),
+                                                 kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
 
     fcn_transpose_2 = tf.add(layer3_conv1x1, fcn_transpose_2)
 
     stride = 8
     fcn_transpose_3 = tf.layers.conv2d_transpose(fcn_transpose_2, num_classes, 2 * stride, stride, padding='same',
-                                                 kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+                                                 kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3),
+                                                 kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
 
     return fcn_transpose_3
 tests.test_layers(layers)
@@ -100,12 +103,12 @@ def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     """
     # TODO: Implement function
 
-    logits = tf.reshape(nn_last_layer, (-1, num_classes))
+    logits = tf.reshape(nn_last_layer, (-1, num_classes), name='logits')
     labels = tf.reshape(correct_label, (-1, num_classes))
     cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
-        logits=logits, labels=labels))
+        logits=logits, labels=labels), name='loss')
     #optimizer = tf.train.GradientDescentOptimizer(learning_rate)
-    optimizer = tf.train.AdamOptimizer()
+    optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
     train_op = optimizer.minimize(cross_entropy_loss)
 
     return logits, train_op, cross_entropy_loss
